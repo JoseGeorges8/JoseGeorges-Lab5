@@ -5,17 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
-for i in 1..50
-  title = Faker::Lorem.sentence
-  content = Faker::Lorem.paragraph
-
-  article = Article.new
-  article.title = title
-  article.content = content
-  article.save
-end
-
+#
+#
 for i in 1..50
   name = Faker::Name.name
   email = Faker::Internet.free_email(name)
@@ -24,17 +15,19 @@ for i in 1..50
   user.name = name
   user.email = email
   if user.save
-    for ii in 1..Article.count
 
-      article = Article.find(ii)
+    Article.create(title: Faker::Lorem.sentence, content: Faker::Lorem.paragraph, user: user)
 
-      for iii in 1..10
-        comment = Comment.new
-        comment.message = Faker::Lorem.paragraph
-        comment.user = user
-        comment.article = article
-        comment.save
-      end
-    end
+  end
+end
+
+
+for ii in 1..Article.count
+
+  article = Article.find(ii)
+  user = User.find(ii)
+
+  for iii in 1..10
+    Comment.create(message: Faker:: Lorem.paragraph, user: user, article: article)
   end
 end
